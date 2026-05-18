@@ -1,0 +1,27 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          release-type: python
+          
+          # Optional: Automatically update the version number in these files
+          # whenever a new release is generated.
+          extra-files: |
+            src/env/DEV.env
+            src/env/TEST.env
+            src/env/UAT.env
+            src/env/PROD.env
