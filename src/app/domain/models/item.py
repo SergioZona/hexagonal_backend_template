@@ -1,6 +1,6 @@
 """Item entity and ItemId value object."""
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
 from app.domain.models.shared import Entity, ValueObject
@@ -13,7 +13,7 @@ class ItemId(ValueObject):
     value: UUID
 
     @classmethod
-    def generate(cls) -> "ItemId":
+    def generate(cls) -> ItemId:
         return cls(value=uuid4())
 
     def __str__(self) -> str:
@@ -32,14 +32,14 @@ class Item(Entity):
     name: str
     description: str
     created_at: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
     updated_at: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
 
     @classmethod
-    def create(cls, name: str, description: str) -> "Item":
+    def create(cls, name: str, description: str) -> Item:
         """Factory method — the only way to create a new Item."""
         return cls(
             id=ItemId.generate(),
@@ -57,4 +57,4 @@ class Item(Entity):
             self.name = name
         if description is not None:
             self.description = description
-        self.updated_at = datetime.now(timezone.utc)
+        self.updated_at = datetime.now(UTC)

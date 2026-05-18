@@ -2,7 +2,7 @@
 Unit tests for ItemUseCase.
 All outbound dependencies are mocked — no I/O, no DB, pure logic.
 """
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 import pytest
 

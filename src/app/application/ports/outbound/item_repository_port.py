@@ -1,7 +1,9 @@
 """Outbound port — defines what the application needs from driven adapters."""
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from app.domain.models.item import Item, ItemId
+if TYPE_CHECKING:
+    from app.domain.models.item import Item, ItemId
 
 
 class ItemRepositoryPort(ABC):

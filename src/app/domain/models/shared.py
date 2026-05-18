@@ -1,10 +1,9 @@
 """Shared base classes for domain entities and value objects."""
-from abc import ABC
 from dataclasses import dataclass
 
 
 @dataclass
-class Entity(ABC):
+class Entity:
     """
     Base class for all domain entities.
     Entities have identity — two entities with the same id are the same,
@@ -13,7 +12,7 @@ class Entity(ABC):
 
 
 @dataclass(frozen=True)
-class ValueObject(ABC):
+class ValueObject:
     """
     Base class for all value objects.
     Value objects are immutable. Equality is based on their attributes,

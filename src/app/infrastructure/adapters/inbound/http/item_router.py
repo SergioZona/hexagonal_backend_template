@@ -3,6 +3,8 @@ Item HTTP router — inbound adapter.
 Translates HTTP ↔ domain. Calls the use case via the inbound port.
 Never contains business logic.
 """
+
+from typing import Annotated
 from uuid import UUID
 
 from dependency_injector.wiring import Provide, inject
@@ -13,7 +15,6 @@ from app.domain.models.item import ItemId
 from app.infrastructure.adapters.inbound.http.jsend import success
 from app.infrastructure.adapters.inbound.http.schemas import (
     CreateItemRequest,
-    ItemResponse,
     UpdateItemRequest,
 )
 from app.infrastructure.config.container import Container
@@ -36,7 +37,7 @@ def _serialize(item) -> dict:  # type: ignore[no-untyped-def]
 @inject
 async def create_item(
     body: CreateItemRequest,
-    service: ItemServicePort = Depends(Provide[Container.item_use_case]),
+    service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
 ) -> dict:
     item = await service.create_item(name=body.name, description=body.description)
     return success(_serialize(item))
@@ -45,7 +46,7 @@ async def create_item(
 @router.get("", response_model=None)
 @inject
 async def list_items(
-    service: ItemServicePort = Depends(Provide[Container.item_use_case]),
+    service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
 ) -> dict:
     items = await service.get_all_items()
     return success([_serialize(i) for i in items])
@@ -55,7 +56,7 @@ async def list_items(
 @inject
 async def get_item(
     item_id: UUID,
-    service: ItemServicePort = Depends(Provide[Container.item_use_case]),
+    service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
 ) -> dict:
     item = await service.get_item(ItemId(value=item_id))
     return success(_serialize(item))
@@ -66,7 +67,7 @@ async def get_item(
 async def update_item(
     item_id: UUID,
     body: UpdateItemRequest,
-    service: ItemServicePort = Depends(Provide[Container.item_use_case]),
+    service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
 ) -> dict:
     item = await service.update_item(
         ItemId(value=item_id),
@@ -80,6 +81,6 @@ async def update_item(
 @inject
 async def delete_item(
     item_id: UUID,
-    service: ItemServicePort = Depends(Provide[Container.item_use_case]),
+    service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
 ) -> None:
     await service.delete_item(ItemId(value=item_id))

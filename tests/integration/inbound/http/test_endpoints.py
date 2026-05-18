@@ -2,7 +2,6 @@
 Integration tests for Item HTTP endpoints.
 Uses a real FastAPI test client. Repository is overridden with a stub.
 """
-from unittest.mock import AsyncMock
 
 import pytest
 

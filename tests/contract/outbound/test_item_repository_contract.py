@@ -3,10 +3,14 @@ Contract tests for ItemRepositoryPort.
 Every concrete repository implementation MUST pass this suite.
 Add a new TestXxxRepo class for each new adapter implementation.
 """
+from typing import TYPE_CHECKING
+
 import pytest
 
-from app.application.ports.outbound.item_repository_port import ItemRepositoryPort
 from app.domain.models.item import Item, ItemId
+
+if TYPE_CHECKING:
+    from app.application.ports.outbound.item_repository_port import ItemRepositoryPort
 
 
 class ItemRepositoryContract:

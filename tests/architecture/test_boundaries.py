@@ -5,9 +5,6 @@ Run: uv run lint-imports
 These tests fail CI if any layer imports violate the hexagonal contract.
 """
 import subprocess
-import sys
-
-import pytest
 
 
 def test_import_linter_contracts_pass() -> None:
@@ -18,14 +15,10 @@ def test_import_linter_contracts_pass() -> None:
       - Application has no infrastructure imports
       - Layers are correctly ordered
     """
-    import shutil
-    
-    linter_exe = shutil.which("lint-imports")
-    if not linter_exe:
-        pytest.fail("lint-imports executable not found in PATH. Make sure import-linter is installed.")
+    import sys
 
     result = subprocess.run(
-        [linter_exe],
+        [sys.executable, "-m", "importlinter"],
         capture_output=True,
         text=True,
     )

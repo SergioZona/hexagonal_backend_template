@@ -2,10 +2,14 @@
 Pydantic schemas for inbound HTTP requests and outbound responses.
 These live in the infrastructure layer — the domain knows nothing about them.
 """
-from datetime import datetime
-from uuid import UUID
+
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from datetime import datetime
+    from uuid import UUID
 
 
 # ── Request schemas ───────────────────────────────────────────────────────────

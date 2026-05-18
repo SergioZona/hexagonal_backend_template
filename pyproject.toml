@@ -59,6 +59,15 @@ ignore = ["E501"]
 quote-style = "double"
 indent-style = "space"
 
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-decorators = [
+    "fastapi.APIRouter.get",
+    "fastapi.APIRouter.post",
+    "fastapi.APIRouter.patch",
+    "fastapi.APIRouter.delete",
+    "dependency_injector.wiring.inject",
+]
+
 # ---------------------------------------------------------------------------
 # Mypy
 # ---------------------------------------------------------------------------

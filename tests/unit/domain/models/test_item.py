@@ -1,8 +1,6 @@
 """Unit tests for the Item domain model."""
 from datetime import datetime
 
-import pytest
-
 from app.domain.models.item import Item, ItemId
 
 
