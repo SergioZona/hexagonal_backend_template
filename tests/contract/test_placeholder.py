@@ -5,4 +5,5 @@ This will be removed once concrete repository implementations are added.
 
 
 def test_placeholder() -> None:
-    assert True
+    result = sum([1, 2])
+    assert result == 3
