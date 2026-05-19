@@ -3,7 +3,7 @@ Health and ping/pong endpoints.
 These are infrastructure-level probes — no business logic, no use cases.
 """
 
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends
 
@@ -19,7 +19,7 @@ router = APIRouter(tags=["health"])
     description="Returns 200 when the service is running. Use for Docker/K8s liveness checks.",
     response_description="Service health status",
 )
-async def health(settings: Annotated[Settings, Depends(get_settings)]) -> dict:
+async def health(settings: Annotated[Settings, Depends(get_settings)]) -> dict[str, Any]:
     """Liveness probe — the app is up and responsive."""
     return success(
         {
@@ -36,7 +36,7 @@ async def health(settings: Annotated[Settings, Depends(get_settings)]) -> dict:
     summary="Readiness probe",
     description="Returns 200 when the service is ready to handle traffic.",
 )
-async def ready(settings: Annotated[Settings, Depends(get_settings)]) -> dict:
+async def ready(settings: Annotated[Settings, Depends(get_settings)]) -> dict[str, Any]:
     """
     Readiness probe — placeholder.
     In production: check DB connectivity, cache, external deps.
@@ -54,6 +54,6 @@ async def ready(settings: Annotated[Settings, Depends(get_settings)]) -> dict:
     summary="Ping / Pong",
     description="Simple connectivity test. POST a ping, get a pong.",
 )
-async def ping() -> dict:
+async def ping() -> dict[str, Any]:
     """Connectivity test endpoint."""
     return success({"message": "pong"})

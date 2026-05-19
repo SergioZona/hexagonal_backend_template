@@ -4,7 +4,7 @@ Translates HTTP ↔ domain. Calls the use case via the inbound port.
 Never contains business logic.
 """
 
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import UUID
 
 from dependency_injector.wiring import Provide, inject
@@ -22,7 +22,7 @@ from app.infrastructure.config.container import Container
 router = APIRouter(prefix="/items", tags=["items"])
 
 
-def _serialize(item) -> dict:  # type: ignore[no-untyped-def]
+def _serialize(item: Any) -> dict[str, Any]:
     """Map a domain Item to a dict matching ItemResponse."""
     return {
         "id": item.id.value,
@@ -38,7 +38,7 @@ def _serialize(item) -> dict:  # type: ignore[no-untyped-def]
 async def create_item(
     body: CreateItemRequest,
     service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
-) -> dict:
+) -> dict[str, Any]:
     item = await service.create_item(name=body.name, description=body.description)
     return success(_serialize(item))
 
@@ -47,7 +47,7 @@ async def create_item(
 @inject
 async def list_items(
     service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
-) -> dict:
+) -> dict[str, Any]:
     items = await service.get_all_items()
     return success([_serialize(i) for i in items])
 
@@ -57,7 +57,7 @@ async def list_items(
 async def get_item(
     item_id: UUID,
     service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
-) -> dict:
+) -> dict[str, Any]:
     item = await service.get_item(ItemId(value=item_id))
     return success(_serialize(item))
 
@@ -68,7 +68,7 @@ async def update_item(
     item_id: UUID,
     body: UpdateItemRequest,
     service: Annotated[ItemServicePort, Depends(Provide[Container.item_use_case])],
-) -> dict:
+) -> dict[str, Any]:
     item = await service.update_item(
         ItemId(value=item_id),
         name=body.name,
