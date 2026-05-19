@@ -124,20 +124,18 @@ jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
   sonar:
-    name: "SonarCloud (main only)"
+    name: "SonarQube Analysis"
     needs: [unit-tests]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Full history for better analysis relevancy
       - uses: actions/download-artifact@v4
         with:
           name: coverage-report
-      - uses: SonarSource/sonarcloud-github-action@master
+      - uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
