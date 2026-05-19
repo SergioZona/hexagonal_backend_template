@@ -4,7 +4,6 @@ Uses import-linter contracts defined in pyproject.toml.
 Run: uv run lint-imports
 These tests fail CI if any layer imports violate the hexagonal contract.
 """
-import subprocess
 
 
 def test_import_linter_contracts_pass() -> None:
@@ -41,6 +40,6 @@ def test_domain_does_not_import_application() -> None:
                 if "app.application" in module or "app.infrastructure" in module:
                     violations.append(f"{py_file}: imports '{module}'")
 
-    assert not violations, (
-        "Domain layer has forbidden imports:\n" + "\n".join(violations)
+    assert not violations, "Domain layer has forbidden imports:\n" + "\n".join(
+        violations
     )

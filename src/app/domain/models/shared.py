@@ -1,4 +1,5 @@
 """Shared base classes for domain entities and value objects."""
+
 from dataclasses import dataclass
 
 

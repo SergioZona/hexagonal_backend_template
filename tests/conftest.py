@@ -1,4 +1,5 @@
 """Shared test fixtures and configuration."""
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 

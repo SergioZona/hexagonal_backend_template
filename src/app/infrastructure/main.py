@@ -3,6 +3,7 @@ FastAPI application factory.
 This is the infrastructure entry point — wires the DI container, registers
 routers, and installs global exception handlers.
 """
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -51,8 +52,8 @@ def create_app() -> FastAPI:
 
     # ── Routers ───────────────────────────────────────────────────────────────
     api_prefix = f"/api/{settings.api_version}"
-    app.include_router(health_router)                         # /health, /ready, /ping
-    app.include_router(item_router, prefix=api_prefix)        # /api/v1/items
+    app.include_router(health_router)  # /health, /ready, /ping
+    app.include_router(item_router, prefix=api_prefix)  # /api/v1/items
 
     # ── Global exception handlers (domain → JSend) ────────────────────────────
     @app.exception_handler(ItemNotFoundError)

@@ -3,6 +3,7 @@ DI Container — composition root.
 This is the ONLY place where concrete implementations are wired to abstractions.
 Nothing outside this file should instantiate adapters or use cases directly.
 """
+
 from dependency_injector import containers, providers
 
 from app.application.use_cases.item_use_case import ItemUseCase

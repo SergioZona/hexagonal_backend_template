@@ -3,6 +3,7 @@ Contract tests for ItemRepositoryPort.
 Every concrete repository implementation MUST pass this suite.
 Add a new TestXxxRepo class for each new adapter implementation.
 """
+
 from typing import TYPE_CHECKING
 
 import pytest
@@ -29,14 +30,18 @@ class ItemRepositoryContract:
         assert result.id == item.id
         assert result.name == item.name
 
-    async def test_find_by_id_returns_saved_item(self, repo: ItemRepositoryPort) -> None:
+    async def test_find_by_id_returns_saved_item(
+        self, repo: ItemRepositoryPort
+    ) -> None:
         item = Item.create(name="Widget", description="Desc")
         await repo.save(item)
         found = await repo.find_by_id(item.id)
         assert found is not None
         assert found.id == item.id
 
-    async def test_find_by_id_returns_none_when_missing(self, repo: ItemRepositoryPort) -> None:
+    async def test_find_by_id_returns_none_when_missing(
+        self, repo: ItemRepositoryPort
+    ) -> None:
         result = await repo.find_by_id(ItemId.generate())
         assert result is None
 

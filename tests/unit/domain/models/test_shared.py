@@ -5,6 +5,7 @@ from app.domain.models.shared import Entity, ValueObject
 
 def test_entity_base_class() -> None:
     """Verifies that Entity base class can be inherited."""
+
     @dataclass
     class DummyEntity(Entity):
         id: str
@@ -18,6 +19,7 @@ def test_entity_base_class() -> None:
 
 def test_value_object_base_class() -> None:
     """Verifies that ValueObject base class can be inherited and is frozen."""
+
     @dataclass(frozen=True)
     class DummyVO(ValueObject):
         value: str

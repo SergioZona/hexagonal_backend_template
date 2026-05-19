@@ -2,6 +2,7 @@
 Architecture structure tests.
 Validates file naming conventions and ensures that critical layers have corresponding tests.
 """
+
 import pathlib
 
 SRC_DIR = pathlib.Path("src/app")
@@ -25,8 +26,8 @@ def test_every_domain_file_has_a_unit_test() -> None:
             missing_tests.append(f"{py_file} (expected test at {test_file})")
 
     assert not missing_tests, (
-        "Architecture Violation: Domain files must have corresponding unit tests!\n" +
-        "\n".join(missing_tests)
+        "Architecture Violation: Domain files must have corresponding unit tests!\n"
+        + "\n".join(missing_tests)
     )
 
 
@@ -50,8 +51,8 @@ def test_every_application_file_has_a_unit_test() -> None:
             missing_tests.append(f"{py_file} (expected test at {test_file})")
 
     assert not missing_tests, (
-        "Architecture Violation: Application files (Use Cases) must have corresponding unit tests!\n" +
-        "\n".join(missing_tests)
+        "Architecture Violation: Application files (Use Cases) must have corresponding unit tests!\n"
+        + "\n".join(missing_tests)
     )
 
 
@@ -67,8 +68,8 @@ def test_use_cases_naming_convention() -> None:
             violations.append(str(py_file))
 
     assert not violations, (
-        "Architecture Violation: Use Cases must be named `*_use_case.py`!\n" +
-        "\n".join(violations)
+        "Architecture Violation: Use Cases must be named `*_use_case.py`!\n"
+        + "\n".join(violations)
     )
 
 
@@ -84,6 +85,6 @@ def test_ports_naming_convention() -> None:
             violations.append(str(py_file))
 
     assert not violations, (
-        "Architecture Violation: Ports must be named `*_port.py`!\n" +
-        "\n".join(violations)
+        "Architecture Violation: Ports must be named `*_port.py`!\n"
+        + "\n".join(violations)
     )

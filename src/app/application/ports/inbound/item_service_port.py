@@ -1,4 +1,5 @@
 """Inbound port — defines what the application exposes to driving adapters."""
+
 from abc import ABC, abstractmethod
 
 from app.domain.models.item import Item, ItemId

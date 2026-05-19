@@ -5,6 +5,7 @@ Implements ItemRepositoryPort (the driven port).
 This is a PLACEHOLDER. All methods raise NotImplementedError with clear guidance.
 Replace each method body with real SQLAlchemy async queries.
 """
+
 from app.application.ports.outbound.item_repository_port import ItemRepositoryPort
 from app.domain.models.item import Item, ItemId
 

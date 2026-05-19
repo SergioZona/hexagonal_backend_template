@@ -3,7 +3,6 @@ Pydantic schemas for inbound HTTP requests and outbound responses.
 These live in the infrastructure layer — the domain knows nothing about them.
 """
 
-
 from datetime import datetime
 from uuid import UUID
 
@@ -11,9 +10,12 @@ from pydantic import BaseModel, Field
 
 # ── Request schemas ───────────────────────────────────────────────────────────
 
+
 class CreateItemRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=255, examples=["My Item"])
-    description: str = Field(..., min_length=1, max_length=1000, examples=["A sample description"])
+    description: str = Field(
+        ..., min_length=1, max_length=1000, examples=["A sample description"]
+    )
 
 
 class UpdateItemRequest(BaseModel):
@@ -22,6 +24,7 @@ class UpdateItemRequest(BaseModel):
 
 
 # ── Response schemas ──────────────────────────────────────────────────────────
+
 
 class ItemResponse(BaseModel):
     id: UUID

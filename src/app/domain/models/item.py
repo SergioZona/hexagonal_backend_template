@@ -1,4 +1,5 @@
 """Item entity and ItemId value object."""
+
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from uuid import UUID, uuid4
@@ -31,12 +32,8 @@ class Item(Entity):
     id: ItemId
     name: str
     description: str
-    created_at: datetime = field(
-        default_factory=lambda: datetime.now(UTC)
-    )
-    updated_at: datetime = field(
-        default_factory=lambda: datetime.now(UTC)
-    )
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     @classmethod
     def create(cls, name: str, description: str) -> Item:
