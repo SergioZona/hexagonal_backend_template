@@ -7,7 +7,7 @@ Secrets → injected at runtime via environment variables (Dokploy / GH Actions)
 
 import os
 
-from pydantic import field_validator
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _app_env = os.getenv("APP_ENV", "").strip().lower()
@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     database_name: str = "app_dev"
 
     # ── Secrets (injected at runtime — NEVER commit these) ──────────────────
-    database_password: str  # required — no default
-    secret_key: str  # required — no default
+    database_password: str = Field(default="", min_length=1)
+    secret_key: str = Field(default="", min_length=1)
 
     # ── Computed ─────────────────────────────────────────────────────────────
     @property
