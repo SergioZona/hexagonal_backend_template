@@ -12,7 +12,7 @@
 - **Mandatory** on every function signature (including `__init__`)
 - Use `X | None` not `Optional[X]`
 - Use `list[X]` not `List[X]`
-- No `Any` unless absolutely necessary and documented
+- No `Any` unless it's a boundary adapter receiving dynamic external data (e.g., serialization helpers). Must be documented with a comment explaining why.
 
 ## Naming
 
@@ -34,3 +34,9 @@
 - Absolute imports only (`from app.domain...`)
 - No wildcard imports (`from module import *`)
 - Group: stdlib → third-party → internal (Ruff/isort handles ordering)
+
+## Disable / Ignore Policy
+
+- `# noqa`, `# type: ignore`, `# nosec`, `# pragma: no cover` are **FORBIDDEN** unless the senior engineer explicitly approves them in review.
+- Fix the underlying code issue. Never suppress the tool.
+- The AI agent must never add any suppress comment autonomously.

@@ -107,9 +107,26 @@ This project follows **Hexagonal Architecture (Ports & Adapters)** mapped direct
 
 - **Formatter + Linter**: Ruff (replaces black, isort, flake8)
 - **Line length**: 88 characters
-- **Type hints**: mandatory on all function signatures
+- **Type hints**: mandatory on all function signatures — use `dict[str, Any]` not bare `dict`
 - **Docstrings**: required on all public classes and non-trivial methods
 - **No bare `except`**: always catch specific exceptions
+
+### Disable / Suppress Policy
+
+`# noqa`, `# type: ignore`, `# nosec`, `# pragma: no cover` are **prohibited** unless explicitly approved by the senior engineer. Fix the root cause. Never silence the tool.
+
+### Pre-Push CI Sequence (mandatory)
+
+Every push must pass all of these locally first. See `docs/LOCAL_CI_GUIDE.md`:
+
+```
+uv run ruff format src/ tests/
+uv run ruff check src/ tests/ --fix
+uv run mypy src/
+uv run pytest tests/
+uv run bandit -r src/ -ll
+uv run pip-audit
+```
 
 ---
 

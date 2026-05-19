@@ -75,13 +75,14 @@ APP_ENV=test DATABASE_PASSWORD=testpassword SECRET_KEY=x uv run pytest tests/int
 
 ## Code Quality
 
-These commands are the same on both platforms:
+Run in this **exact order** before every push (see [LOCAL_CI_GUIDE.md](./LOCAL_CI_GUIDE.md)):
 ```bash
-uv run ruff check src/ tests/       # lint
-uv run ruff format src/ tests/      # format
-uv run mypy src/                    # type check
-uv run bandit -r src/ -ll           # security static analysis
-uv run pip-audit                    # dependency CVE check
+uv run ruff format src/ tests/      # 1. format (must run BEFORE lint)
+uv run ruff check src/ tests/ --fix # 2. lint
+uv run mypy src/                    # 3. type check
+uv run pytest tests/                # 4. full test suite
+uv run bandit -r src/ -ll           # 5. security scan
+uv run pip-audit                    # 6. CVE audit
 ```
 
 ---

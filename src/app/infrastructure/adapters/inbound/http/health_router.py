@@ -19,7 +19,9 @@ router = APIRouter(tags=["health"])
     description="Returns 200 when the service is running. Use for Docker/K8s liveness checks.",
     response_description="Service health status",
 )
-async def health(settings: Annotated[Settings, Depends(get_settings)]) -> dict[str, Any]:
+async def health(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> dict[str, Any]:
     """Liveness probe — the app is up and responsive."""
     return success(
         {
