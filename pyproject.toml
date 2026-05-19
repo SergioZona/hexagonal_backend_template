@@ -1,6 +1,6 @@
 [project]
 name = "hexagonal-backend-template"
-version = "0.1.0"
+version = "1.0.0"
 description = "Production-ready Python hexagonal architecture template"
 readme = "README.md"
 requires-python = ">=3.14"
@@ -60,6 +60,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.ruff.lint.flake8-type-checking]
+exempt-modules = ["app.domain.models", "app.application", "typing", "datetime", "uuid"]
 runtime-evaluated-decorators = [
     "fastapi.APIRouter.get",
     "fastapi.APIRouter.post",

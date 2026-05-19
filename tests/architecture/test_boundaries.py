@@ -15,18 +15,10 @@ def test_import_linter_contracts_pass() -> None:
       - Application has no infrastructure imports
       - Layers are correctly ordered
     """
-    import sys
+    from importlinter.cli import lint_imports
 
-    result = subprocess.run(
-        [sys.executable, "-m", "importlinter"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0, (
-        f"Architecture boundary violation detected!\n\n"
-        f"stdout:\n{result.stdout}\n"
-        f"stderr:\n{result.stderr}"
-    )
+    result = lint_imports()
+    assert result == 0, "Architecture boundary violation detected!"
 
 
 def test_domain_does_not_import_application() -> None:

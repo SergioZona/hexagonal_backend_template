@@ -6,14 +6,10 @@ Rules:
 - NEVER imports from infrastructure.
 - All external dependencies (repository) are injected via constructor.
 """
-from typing import TYPE_CHECKING
-
 from app.application.ports.inbound.item_service_port import ItemServicePort
+from app.application.ports.outbound.item_repository_port import ItemRepositoryPort
 from app.domain.exceptions.item_errors import ItemNotFoundError
 from app.domain.models.item import Item, ItemId
-
-if TYPE_CHECKING:
-    from app.application.ports.outbound.item_repository_port import ItemRepositoryPort
 
 
 class ItemUseCase(ItemServicePort):
