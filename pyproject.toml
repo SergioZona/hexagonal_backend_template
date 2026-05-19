@@ -1,6 +1,6 @@
 [project]
 name = "hexagonal-backend-template"
-version = "1.0.0"
+version = "2.0.0"
 description = "Production-ready Python hexagonal architecture template"
 readme = "README.md"
 requires-python = ">=3.14"
