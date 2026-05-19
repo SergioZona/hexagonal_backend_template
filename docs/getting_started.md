@@ -53,7 +53,7 @@ uv run pytest tests/architecture/ -v                 # boundary tests
 uv run pytest tests/ --cov=src --cov-report=term-missing  # all + coverage
 
 # Integration tests (start Postgres first)
-docker compose -f docker-compose.local.yml up -d
+docker compose -f docker/docker-compose.local.yml up -d
 $env:DATABASE_PASSWORD="testpassword"
 uv run pytest tests/integration/ -v
 ```
@@ -67,7 +67,7 @@ APP_ENV=test DATABASE_PASSWORD=x SECRET_KEY=x \
   uv run pytest tests/ --cov=src --cov-report=term-missing
 
 # Integration tests
-docker compose -f docker-compose.local.yml up -d
+docker compose -f docker/docker-compose.local.yml up -d
 APP_ENV=test DATABASE_PASSWORD=testpassword SECRET_KEY=x uv run pytest tests/integration/ -v
 ```
 

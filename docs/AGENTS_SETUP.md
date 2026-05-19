@@ -7,21 +7,25 @@ This project uses Google's Antigravity AI assistant with advanced Context, Memor
 Our AI development pipeline relies on four major AI toolsets installed in this environment:
 
 ### 1. Caveman Mode (`caveman-*`)
-**Purpose**: Extreme token efficiency.
-**What it does**: Forces the LLM to output highly compressed, terse language (omitting articles and pleasantries) while maintaining 100% technical accuracy. This saves up to 75% of context window tokens and speeds up response times.
+**Purpose**: Extreme token efficiency.  
+**Repository**: [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman)  
+**What it does**: Forces the LLM to output highly compressed, terse language (omitting articles and pleasantries) while maintaining 100% technical accuracy. This saves up to 75% of context window tokens and speeds up response times.  
 **Skills included**: `caveman`, `caveman-commit`, `caveman-review`, `compress`, `caveman-help`.
 
 ### 2. Code Review Graph (`crg-*`)
-**Purpose**: Context-aware code intelligence via MCP.
-**What it does**: A local Tree-sitter-based Incremental Knowledge Graph that maps your entire codebase's structural dependencies. Instead of raw file reading, the AI queries the graph to understand caller paths, blast radius, and missing test coverage.
+**Purpose**: Context-aware code intelligence via MCP.  
+**Repository**: [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph)  
+**What it does**: A local Tree-sitter-based Incremental Knowledge Graph that maps your entire codebase's structural dependencies. Instead of raw file reading, the AI queries the graph to understand caller paths, blast radius, and missing test coverage.  
 **Skills included**: `crg-build-graph`, `crg-review-pr`, `crg-debug-issue`, `crg-explore-codebase`, `crg-refactor-safely`, `crg-review-changes`, `crg-review-delta`.
 
 ### 3. Context Mode (`ctx-*`)
-**Purpose**: Sandbox processing and I/O parallelization via MCP.
+**Purpose**: Sandbox processing and I/O parallelization via MCP.  
+**Repository**: [mksglu/context-mode](https://github.com/mksglu/context-mode)  
 **What it does**: Replaces standard terminal execution with a secure sandbox that forces the AI to "Think in Code." Instead of reading massive JSON/HTML files or logs into the context window to reason about them, the AI writes Node.js/Shell scripts to process the data and only prints the final answer. It also parallelizes network calls (HTTP fetching, GitHub API).
 
 ### 4. RTK (Real-Time Knowledge)
-**Purpose**: Immediate domain grounding.
+**Purpose**: Immediate domain grounding.  
+**Repository**: [rtk-ai/rtk](https://github.com/rtk-ai/rtk)  
 **What it does**: Provides persistent rules and dynamic retrieval constraints so the AI inherently understands Hexagonal Architecture constraints and domain specifics without needing to be repeatedly prompted.
 
 ---

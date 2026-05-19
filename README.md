@@ -1,143 +1,159 @@
-# hexagonal-backend-template
+# Hexagonal Backend Template
 
-> Production-ready Python **Hexagonal Architecture (Ports & Adapters)** template.
-> Built with UV, FastAPI, PostgreSQL, and GitHub Actions CI/CD.
+> A production-ready Python **Hexagonal Architecture (Ports & Adapters)** template.
+> Engineered with **FastAPI**, **UV** package manager, **SQLAlchemy 2.0 (async)**, and robust remote and local CI/CD pipelines.
 
 ---
 
-## Tech Stack
+## 🏗️ Repository Architecture & Directory Structure
+
+This project follows strict **Hexagonal Architecture** (Domain-Centric) principles. Sub-domain components are isolated, and dependencies only flow inward.
+
+```
+hexagonal_backend_template/
+├── .agents/                    # AI agent guidelines, rules, and skills
+├── docker/                     # Docker Compose utility stacks
+│   ├── docker-compose.local.yml  # Local developer dependencies (PostgreSQL)
+│   └── docker-compose.sonar.yml  # Local SonarQube quality gate instance
+├── docs/                       # Project documentation single source of truth
+│   ├── CONSTITUTION.md         # Repository principles and strict rules
+│   ├── getting_started.md      # Detailed developer setup instructions
+│   └── LOCAL_CI_GUIDE.md       # Pre-push security and linting checks
+├── src/
+│   ├── env/                    # Configuration and Environment variable files
+│   └── app/
+│       ├── domain/             # Core business models, exceptions, and logic
+│       ├── application/        # Inbound and Outbound Ports (ABCs) + Use Cases
+│       └── infrastructure/     # Adapters (HTTP, Persistence) + DI wiring
+└── tests/                      # Core test suites (Unit, Integration, Architecture, Contract)
+```
+
+---
+
+## 🛠️ Tech Stack
 
 | Concern | Tool |
 |---|---|
-| Language | Python 3.14 |
-| Package manager | UV |
+| Language | Python 3.14+ |
+| Package Manager | [UV](https://docs.astral.sh/) |
 | Framework | FastAPI |
-| Database | PostgreSQL (asyncpg + SQLAlchemy async) |
-| DI Container | dependency-injector |
-| Response format | JSend |
-| Linter + Formatter | Ruff (configured in `pyproject.toml`) |
-| Type checker | mypy |
-| Testing | pytest + pytest-asyncio + httpx |
-| Architecture tests | import-linter |
-| Security | bandit + pip-audit |
-| Code quality | SonarCloud (free tier, main branch) |
-| Versioning | Release Please (conventional commits) |
+| Database | PostgreSQL (asyncpg + SQLAlchemy 2.0) |
+| DI Container | `dependency-injector` |
+| Style / Linting | Ruff (Format + Linter) |
+| Type Checking | MyPy |
+| Security Scanning | Bandit + Pip-audit |
 
 ---
 
-## Setup
+## 🚀 Setup & Installation
+
+### 1. Synchronize Dependencies
+Ensure [UV](https://docs.astral.sh/) is installed, then run:
 
 ```bash
-# Install all dependencies
+# Clone the repository
+git clone https://github.com/SergioZona/hexagonal_backend_template.git
+cd hexagonal_backend_template
+
+# Sync and install environment
 uv sync --group dev
 ```
 
-Copy `src/env/.env` is already the local default — it loads automatically when `APP_ENV` is not set.
-Fill in your local secrets there (it is gitignored and will never be committed):
+### 2. Configure Local Secrets
+Local defaults are already loaded from `src/env/.env` (gitignored). Copy the file and fill in your secrets:
 
 ```ini
-# src/env/.env  — your local secrets (gitignored)
+# src/env/.env  — local developer secrets
 DATABASE_PASSWORD=your-local-password
 SECRET_KEY=your-local-secret
 ```
 
-> **Secrets are never in named env files** (`DEV.env`, `TEST.env`, etc.).
-> They are always injected at runtime: locally via `src/env/.env`, in CI via GitHub Actions secrets, in production via Dokploy.
-
 ---
 
-## Running the Dev Server
+## 🏃 Running the Application
 
-### PowerShell
+Start the live-reloading FastAPI development server using the appropriate command for your operating system:
+
+### 💻 Bash / WSL / macOS
+```bash
+APP_ENV=dev DATABASE_PASSWORD=localpass SECRET_KEY=dev-secret \
+  uv run uvicorn app.infrastructure.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 🐚 PowerShell (Windows)
 ```powershell
+$env:APP_ENV="dev"; $env:DATABASE_PASSWORD="localpass"; $env:SECRET_KEY="dev-secret"
 uv run uvicorn app.infrastructure.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### WSL / bash
-```bash
-uv run uvicorn app.infrastructure.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-`src/env/.env` is loaded automatically. Server starts at `http://localhost:8000`.
-
-| URL | Description |
-|---|---|
-| `http://localhost:8000/docs` | Swagger UI |
-| `GET /health` | Liveness probe |
-| `GET /ready` | Readiness probe |
-| `POST /ping` | Ping → Pong |
-| `GET /api/v1/items` | List items |
+The Swagger Interactive Docs will be accessible at: `http://localhost:8000/docs`
 
 ---
 
-## Tests
+## 🧪 Local CI & Quality Pipeline
 
-See [`tests/README.md`](tests/README.md) for the full test guide.
+To maintain branch stability, you **MUST** execute the local pre-push check pipeline in this exact order:
 
-Quick run (unit tests only, no secrets or DB needed for local defaults):
-```bash
-uv run pytest tests/unit/ -v
-```
-
----
-
-## Code Quality
-
-Ruff is the single tool for linting **and** formatting (configured in `pyproject.toml`):
-
-```bash
-uv run ruff check src/ tests/      # lint
-uv run ruff format src/ tests/     # format (auto-fix)
-uv run ruff format --check src/ tests/  # format check only (CI)
-uv run mypy src/                   # type check
-```
-
----
-
-## Security
-
-```bash
-uv run bandit -r src/ -ll          # static security analysis
-uv run pip-audit                   # known CVE check on dependencies
-```
-
----
-
-## Project Structure
-
-```
-src/
-├── env/            # Config files — .env (gitignored local), DEV/TEST/UAT/PROD.env
-└── app/
-    ├── domain/         # Entities, value objects, exceptions
-    ├── application/    # Ports (ABCs) + use cases
-    └── infrastructure/ # Adapters (HTTP, Postgres) + config + DI container
-
-tests/              # See tests/README.md
-docs/
-├── CONSTITUTION.md # Project law — read this first
-└── getting_started.md
-
-.agents/            # AI agent context (rules, skills)
-```
-
----
-
-## Endpoints
-
-| Method | Path | Description |
+| Step | Command | Purpose |
 |---|---|---|
-| GET | `/health` | Liveness probe |
-| GET | `/ready` | Readiness probe |
-| POST | `/ping` | Ping → Pong |
-| POST | `/api/v1/items` | Create item |
-| GET | `/api/v1/items` | List all items |
-| GET | `/api/v1/items/{id}` | Get item by id |
-| PATCH | `/api/v1/items/{id}` | Update item |
-| DELETE | `/api/v1/items/{id}` | Delete item |
+| **1. Ruff Format** | `uv run ruff format src/ tests/` | Auto-format codebase |
+| **2. Ruff Lint** | `uv run ruff check src/ tests/ --fix` | Check style & code smells |
+| **3. Type Check** | `uv run mypy src/` | Static type enforcement |
+| **4. Test Suite** | `uv run pytest tests/` | Run all test boundaries |
+| **5. Security** | `uv run bandit -c pyproject.toml -r src/` | AST vulnerability scan |
+| **6. Audit** | `uv run pip-audit` | Check locked dependencies for CVEs |
+
+### 🔗 Chained One-Liner Execution
+
+#### Bash / WSL / macOS
+```bash
+uv run ruff format src/ tests/ && \
+uv run ruff check src/ tests/ --fix && \
+uv run mypy src/ && \
+uv run pytest tests/ && \
+uv run bandit -c pyproject.toml -r src/ && \
+uv run pip-audit
+```
+
+#### PowerShell (Windows)
+```powershell
+uv run ruff format src/ tests/; if ($?) { uv run ruff check src/ tests/ --fix }; if ($?) { uv run mypy src/ }; if ($?) { uv run pytest tests/ }; if ($?) { uv run bandit -c pyproject.toml -r src/ }; if ($?) { uv run pip-audit }
+```
 
 ---
 
-## License
+## 🐳 Docker Services
 
-MIT
+Docker compose files are located in the `docker/` directory to keep the root directory clean.
+
+### Local Development Database (Postgres)
+```bash
+# Start Postgres local service
+docker compose -f docker/docker-compose.local.yml up -d
+
+# Stop Postgres local service
+docker compose -f docker/docker-compose.local.yml down
+```
+
+### SonarQube Code Analyzer (Local)
+```bash
+# Start local SonarQube
+docker compose -f docker/docker-compose.sonar.yml up -d
+
+# Stop local SonarQube
+docker compose -f docker/docker-compose.sonar.yml down
+```
+
+---
+
+## 📚 Reference & Further Reading
+For advanced workflows, design rules, and architectures, refer directly to:
+- [📜 Project Constitution](docs/CONSTITUTION.md) — The ultimate code standards and architecture restrictions.
+- [🚀 Getting Started Guide](docs/getting_started.md) — Deep-dive developer guides and domain creation steps.
+- [🔍 Local CI Checks Guide](docs/LOCAL_CI_GUIDE.md) — How to troubleshoot formatting, type errors, or security scans.
+- [🧬 Architecture Boundaries](tests/architecture/test_boundaries.py) — Programmatic Hexagonal rule enforcement tests.
+
+---
+
+## 📝 License
+This project is licensed under the [MIT License](LICENSE).
