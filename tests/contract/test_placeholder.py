@@ -5,4 +5,4 @@ This will be removed once concrete repository implementations are added.
 
 
 def test_placeholder() -> None:
-    assert True
+    pass
