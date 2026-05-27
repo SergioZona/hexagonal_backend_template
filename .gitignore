@@ -22,6 +22,7 @@ src/env/.env
 *.local.env
 .env
 .env.*
+!.env.sonar.example
 
 # Local override files (gitignored by convention)
 *.local.md

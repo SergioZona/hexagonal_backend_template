@@ -77,6 +77,7 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           # TODO: Replace with your registry and build commands:
           # docker build \
+          #   -f docker/Dockerfile \
           #   --env-file src/env/${APP_ENV^^}.env \
           #   -t your-registry/hexagonal-app:$VERSION \
           #   -t your-registry/hexagonal-app:$APP_ENV-latest \
