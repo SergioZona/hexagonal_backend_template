@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/SergioZona/hexagonal_backend_template/compare/v1.0.0...v1.0.0) (2026-05-27)
+
+
+### Documentation
+
+* **readme:** add architecture flow and fix paths ([f8aff12](https://github.com/SergioZona/hexagonal_backend_template/commit/f8aff12f860f0c821206f4fe7e72df10ce3ade64))
+
 ## 1.0.0 (2026-05-19)
 
 
