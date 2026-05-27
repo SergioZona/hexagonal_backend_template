@@ -12,12 +12,13 @@ This project follows strict **Hexagonal Architecture** (Domain-Centric) principl
 ```
 hexagonal_backend_template/
 ├── .agents/                    # AI agent guidelines, rules, and skills
-├── docker/                     # Docker Compose utility stacks
+├── docker/                     # Docker Compose utility stacks and Dockerfile
 │   ├── docker-compose.local.yml  # Local developer dependencies (PostgreSQL)
-│   └── docker-compose.sonar.yml  # Local SonarQube quality gate instance
+│   ├── docker-compose.sonar.yml  # Local SonarQube quality gate instance
+│   └── Dockerfile              # Production multi-stage Dockerfile
 ├── docs/                       # Project documentation single source of truth
 │   ├── CONSTITUTION.md         # Repository principles and strict rules
-│   ├── getting_started.md      # Detailed developer setup instructions
+│   ├── GETTING_STARTED.md      # Detailed developer setup instructions
 │   └── LOCAL_CI_GUIDE.md       # Pre-push security and linting checks
 ├── src/
 │   ├── env/                    # Configuration and Environment variable files
@@ -26,6 +27,35 @@ hexagonal_backend_template/
 │       ├── application/        # Inbound and Outbound Ports (ABCs) + Use Cases
 │       └── infrastructure/     # Adapters (HTTP, Persistence) + DI wiring
 └── tests/                      # Core test suites (Unit, Integration, Architecture, Contract)
+```
+
+### 🧬 Hexagonal Architecture Flow
+
+```mermaid
+graph TD
+    subgraph Infrastructure [Infrastructure Layer - Adapters]
+        HTTP[FastAPI Router / HTTP Adapter]
+        DB[SQLAlchemy / DB Adapter]
+    end
+
+    subgraph Application [Application Layer]
+        SP[ItemServicePort - Inbound Port]
+        RP[ItemRepositoryPort - Outbound Port]
+        UC[ItemUseCase - Core Use Case]
+    end
+
+    subgraph Domain [Domain Layer - Core]
+        Model[Item / Entity / ValueObject]
+        Errors[Domain Exceptions]
+    end
+
+    %% Dependency Flows
+    HTTP -->|Calls| SP
+    UC -->|Implements| SP
+    UC -->|Calls| RP
+    DB -->|Implements| RP
+    UC -->|Uses| Model
+    UC -->|Raises| Errors
 ```
 
 ---
@@ -149,7 +179,7 @@ docker compose -f docker/docker-compose.sonar.yml down
 ## 📚 Reference & Further Reading
 For advanced workflows, design rules, and architectures, refer directly to:
 - [📜 Project Constitution](docs/CONSTITUTION.md) — The ultimate code standards and architecture restrictions.
-- [🚀 Getting Started Guide](docs/getting_started.md) — Deep-dive developer guides and domain creation steps.
+- [🚀 Getting Started Guide](docs/GETTING_STARTED.md) — Deep-dive developer guides and domain creation steps.
 - [🔍 Local CI Checks Guide](docs/LOCAL_CI_GUIDE.md) — How to troubleshoot formatting, type errors, or security scans.
 - [🧬 Architecture Boundaries](tests/architecture/test_boundaries.py) — Programmatic Hexagonal rule enforcement tests.
 

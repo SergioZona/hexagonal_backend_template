@@ -3,8 +3,6 @@ name: CI
 on:
   push:
     branches: ["**"]
-  pull_request:
-    branches: ["**"]
 
 env:
   PYTHON_VERSION: "3.14"
@@ -126,7 +124,6 @@ jobs:
   sonar:
     name: "SonarQube Analysis"
     needs: [unit-tests]
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
